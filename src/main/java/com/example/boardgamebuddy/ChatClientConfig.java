@@ -1,8 +1,8 @@
 package com.example.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,13 +10,13 @@ import org.springframework.context.annotation.Configuration;
 public class ChatClientConfig {
 
     @Bean
-    public ChatClient openaiChatClient(@Qualifier("openAiChatModel") ChatModel openAiChatModel) {
-        return ChatClient.builder(openAiChatModel).build();
+    public ChatClient openaiChatClient(OpenAiChatModel openAiChatModel) {
+        return ChatClient.create(openAiChatModel);
     }
 
     @Bean
-    public ChatClient ollamaChatClient(@Qualifier("ollamaChatModel") ChatModel ollamaChatModel) {
-        return ChatClient.builder(ollamaChatModel).build();
+    public ChatClient ollamaChatClient(OllamaChatModel ollamaChatModel) {
+        return ChatClient.create(ollamaChatModel);
     }
 
 }

@@ -2,6 +2,9 @@ package com.example.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+
+import java.util.stream.Collectors;
 
 @Service
 public class SpringAiBoardGameService implements BoardGameService {
@@ -16,10 +19,11 @@ public class SpringAiBoardGameService implements BoardGameService {
 
     @Override
     public Answer askQuestion(Question question) {
-        String answerText = openaiChatClient.prompt()
+        Flux<String> content = openaiChatClient.prompt()
                 .user(question.question())
-                .call()
+                .stream()
                 .content();
-        return new Answer(answerText);
+        String answer = content.collectList().block().stream().collect(Collectors.joining());
+        return new Answer(answer);
     }
 }
