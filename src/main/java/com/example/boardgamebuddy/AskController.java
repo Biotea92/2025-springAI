@@ -13,8 +13,8 @@ public class AskController {
         this.boardGameService = boardGameService;
     }
 
-    @PostMapping(value = "/ask")
-    public Answer ask(@RequestBody Question question) {
-        return boardGameService.askQuestion(question);
+    @PostMapping("/ask")
+    public Answer ask(@RequestBody AskQuestion askQuestion) {
+        return boardGameService.askQuestion(askQuestion);
     }
 }

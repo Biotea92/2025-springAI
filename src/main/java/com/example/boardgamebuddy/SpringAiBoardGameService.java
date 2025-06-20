@@ -18,9 +18,9 @@ public class SpringAiBoardGameService implements BoardGameService {
     }
 
     @Override
-    public Answer askQuestion(Question question) {
+    public Answer askQuestion(AskQuestion askQuestion) {
         Flux<String> content = openaiChatClient.prompt()
-                .user(question.question())
+                .user(askQuestion.question())
                 .stream()
                 .content();
         String answer = content.collectList().block().stream().collect(Collectors.joining());
