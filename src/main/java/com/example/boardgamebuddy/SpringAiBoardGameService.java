@@ -1,6 +1,7 @@
 package com.example.boardgamebuddy;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -20,7 +21,8 @@ public class SpringAiBoardGameService implements BoardGameService {
     @Override
     public Answer askQuestion(AskQuestion askQuestion) {
         Flux<String> content = openaiChatClient.prompt()
-                .user(askQuestion.question())
+                .advisors(new SimpleLoggerAdvisor())
+                .user(askQuestion.askQuestion())
                 .stream()
                 .content();
         String answer = content.collectList().block().stream().collect(Collectors.joining());
